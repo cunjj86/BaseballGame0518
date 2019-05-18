@@ -8,12 +8,18 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.tje.baseballgame.databinding.ActivityMainBinding;
+import com.tje.baseballgame.datas.Chat;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends BaseActivity {
 
     ActivityMainBinding act;
 
     int[] computerExamArray = new int[3]; // 741 => 7, 4, 1
+
+    List<Chat> chatList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +34,9 @@ public class MainActivity extends BaseActivity {
         act.inputBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                chatList.add(new Chat(true, act.userInputEdt.getText().toString()));
+
                 checkStrikeAndBalls();
             }
         });
@@ -60,10 +69,16 @@ public class MainActivity extends BaseActivity {
         }
 
         if (strikeCount == 3) {
-            Toast.makeText(mContext, "정답입니다! 축하합니다!", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(mContext, "정답입니다! 축하합니다!", Toast.LENGTH_SHORT).show();
+
+            chatList.add(new Chat(false, "정답입니다! 축하합니다!"));
+
         }
         else {
-            Toast.makeText(mContext, String.format("%dS, %dB 입니다.", strikeCount, ballCount), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(mContext, String.format("%dS, %dB 입니다.", strikeCount, ballCount), Toast.LENGTH_SHORT).show();
+
+            chatList.add(new Chat(false, String.format("%dS, %dB 입니다.", strikeCount, ballCount)));
+
         }
 
     }
