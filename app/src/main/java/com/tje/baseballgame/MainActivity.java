@@ -1,6 +1,7 @@
 package com.tje.baseballgame;
 
 import android.databinding.DataBindingUtil;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -73,6 +74,9 @@ public class MainActivity extends BaseActivity {
             }
         }
 
+        final int strikeFinalCount = strikeCount;
+        final int ballFinalCount = ballCount;
+
         if (strikeCount == 3) {
 //            Toast.makeText(mContext, "정답입니다! 축하합니다!", Toast.LENGTH_SHORT).show();
 
@@ -85,10 +89,15 @@ public class MainActivity extends BaseActivity {
         else {
 //            Toast.makeText(mContext, String.format("%dS, %dB 입니다.", strikeCount, ballCount), Toast.LENGTH_SHORT).show();
 
-            chatList.add(new Chat(false, String.format("%dS, %dB 입니다.", strikeCount, ballCount)));
-            mChatAdapter.notifyDataSetChanged();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    chatList.add(new Chat(false, String.format("%dS, %dB 입니다.", strikeFinalCount, ballFinalCount)));
+                    mChatAdapter.notifyDataSetChanged();
 
-            act.messageListView.smoothScrollToPosition(chatList.size() - 1);
+                    act.messageListView.smoothScrollToPosition(chatList.size() - 1);
+                }
+            }, 1000);
 
         }
 
